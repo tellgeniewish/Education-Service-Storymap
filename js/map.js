@@ -28,11 +28,35 @@ const daechi = L.marker([37.50, 127.06])
 
 
 // ==================================================
-// 2. 두 번째 지도
-//    강남구 / 양산시 / 대치4동 / 물금읍 경계
+// 2. 행정경계 비교 지도
+//    강남구-대치4동 / 양산시-물금읍
 // ==================================================
 
-const boundaryMap = L.map('boundary-map').setView([36.2, 127.8], 7);
+
+// 시군구 스타일
+const sigunguStyle = {
+  color: '#555555',
+  weight: 2,
+  fillColor: '#999999',
+  fillOpacity: 0.08
+};
+
+
+// 읍면동 강조 스타일
+const dongStyle = {
+  color: '#d62728',
+  weight: 3,
+  fillColor: '#d62728',
+  fillOpacity: 0.25
+};
+
+
+
+// --------------------------------------------------
+// 2-1. 강남구 지도
+// --------------------------------------------------
+
+const gangnamMap = L.map('gangnam-map');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -40,34 +64,22 @@ L.tileLayer(
     maxZoom: 19,
     attribution: '&copy; OpenStreetMap contributors'
   }
-).addTo(boundaryMap);
+).addTo(gangnamMap);
 
 
-// 시군구 스타일
-const sigunguStyle = {
-  color: '#333333',
-  weight: 3,
-  fillColor: '#999999',
-  fillOpacity: 0.08
-};
-
-
-// 읍면동 스타일
-const dongStyle = {
-  color: '#d62728',
-  weight: 4,
-  fillColor: '#d62728',
-  fillOpacity: 0.12
-};
-
-
-// 강남구
+// 강남구 경계
 fetch('data/gangnam_boundary.geojson')
   .then(response => response.json())
   .then(data => {
     const gangnamLayer = L.geoJSON(data, {
       style: sigunguStyle
-    }).addTo(boundaryMap);
+    }).addTo(gangnamMap);
+
+    // 강남구 전체가 화면에 들어오도록 자동 확대
+    gangnamMap.fitBounds(
+      gangnamLayer.getBounds(),
+      { padding: [20, 20] }
+    );
 
     gangnamLayer.bindPopup(
       '<b>서울특별시 강남구</b>'
@@ -78,30 +90,13 @@ fetch('data/gangnam_boundary.geojson')
   });
 
 
-// 양산시
-fetch('data/yangsan_boundary.geojson')
-  .then(response => response.json())
-  .then(data => {
-    const yangsanLayer = L.geoJSON(data, {
-      style: sigunguStyle
-    }).addTo(boundaryMap);
-
-    yangsanLayer.bindPopup(
-      '<b>경상남도 양산시</b>'
-    );
-  })
-  .catch(error => {
-    console.error('양산시 GeoJSON 불러오기 오류:', error);
-  });
-
-
-// 대치4동
+// 대치4동 경계
 fetch('data/daechi4_boundary.geojson')
   .then(response => response.json())
   .then(data => {
     const daechiLayer = L.geoJSON(data, {
       style: dongStyle
-    }).addTo(boundaryMap);
+    }).addTo(gangnamMap);
 
     daechiLayer.bindPopup(
       '<b>서울특별시 강남구 대치4동</b>'
@@ -112,13 +107,52 @@ fetch('data/daechi4_boundary.geojson')
   });
 
 
-// 물금읍
+
+// --------------------------------------------------
+// 2-2. 양산시 지도
+// --------------------------------------------------
+
+const yangsanMap = L.map('yangsan-map');
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }
+).addTo(yangsanMap);
+
+
+// 양산시 경계
+fetch('data/yangsan_boundary.geojson')
+  .then(response => response.json())
+  .then(data => {
+    const yangsanLayer = L.geoJSON(data, {
+      style: sigunguStyle
+    }).addTo(yangsanMap);
+
+    // 양산시 전체가 화면에 들어오도록 자동 확대
+    yangsanMap.fitBounds(
+      yangsanLayer.getBounds(),
+      { padding: [20, 20] }
+    );
+
+    yangsanLayer.bindPopup(
+      '<b>경상남도 양산시</b>'
+    );
+  })
+  .catch(error => {
+    console.error('양산시 GeoJSON 불러오기 오류:', error);
+  });
+
+
+// 물금읍 경계
 fetch('data/mulgeum_boundary.geojson')
   .then(response => response.json())
   .then(data => {
     const mulgeumLayer = L.geoJSON(data, {
       style: dongStyle
-    }).addTo(boundaryMap);
+    }).addTo(yangsanMap);
 
     mulgeumLayer.bindPopup(
       '<b>경상남도 양산시 물금읍</b>'
