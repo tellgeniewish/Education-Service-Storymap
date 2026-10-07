@@ -102,7 +102,129 @@
       .addTo(map)
       .bindPopup('<b>서울특별시 강남구 대치4동</b>');
 
-  </script>
+  // --------------------------------------------------
+  // 1. 기본 지도 생성
+  // --------------------------------------------------
+  map = L.map('map').setView([36.2, 127.8], 7);
+
+  // OpenStreetMap 배경지도
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }
+  ).addTo(map);
+
+
+  // --------------------------------------------------
+  // 2. 시군구 경계 스타일
+  //    강남구 / 양산시
+  // --------------------------------------------------
+  const sigunguStyle = {
+    color: '#333333',
+    weight: 3,
+    fillColor: '#999999',
+    fillOpacity: 0.08
+  };
+
+
+  // --------------------------------------------------
+  // 3. 읍면동 경계 스타일
+  //    대치4동 / 물금읍
+  // --------------------------------------------------
+  const dongStyle = {
+    color: '#d62728',
+    weight: 4,
+    fillColor: '#d62728',
+    fillOpacity: 0.12
+  };
+
+
+  // --------------------------------------------------
+  // 4. 강남구 경계
+  // --------------------------------------------------
+  fetch('data/gangnam_boundary.geojson')
+    .then(response => response.json())
+    .then(data => {
+
+      const gangnamLayer = L.geoJSON(data, {
+        style: sigunguStyle
+      }).addTo(map);
+
+      gangnamLayer.bindPopup(
+        '<b>서울특별시 강남구</b>'
+      );
+
+    })
+    .catch(error => {
+      console.error('강남구 GeoJSON 불러오기 오류:', error);
+    });
+
+
+  // --------------------------------------------------
+  // 5. 양산시 경계
+  // --------------------------------------------------
+  fetch('data/yangsan_boundary.geojson')
+    .then(response => response.json())
+    .then(data => {
+
+      const yangsanLayer = L.geoJSON(data, {
+        style: sigunguStyle
+      }).addTo(map);
+
+      yangsanLayer.bindPopup(
+        '<b>경상남도 양산시</b>'
+      );
+
+    })
+    .catch(error => {
+      console.error('양산시 GeoJSON 불러오기 오류:', error);
+    });
+
+
+  // --------------------------------------------------
+  // 6. 대치4동 경계
+  // --------------------------------------------------
+  fetch('data/daechi4_boundary.geojson')
+    .then(response => response.json())
+    .then(data => {
+
+      const daechiLayer = L.geoJSON(data, {
+        style: dongStyle
+      }).addTo(map);
+
+      daechiLayer.bindPopup(
+        '<b>서울특별시 강남구 대치4동</b>'
+      );
+
+    })
+    .catch(error => {
+      console.error('대치4동 GeoJSON 불러오기 오류:', error);
+    });
+
+
+  // --------------------------------------------------
+  // 7. 물금읍 경계
+  // --------------------------------------------------
+  fetch('data/mulgeum_boundary.geojson')
+    .then(response => response.json())
+    .then(data => {
+
+      const mulgeumLayer = L.geoJSON(data, {
+        style: dongStyle
+      }).addTo(map);
+
+      mulgeumLayer.bindPopup(
+        '<b>경상남도 양산시 물금읍</b>'
+      );
+
+    })
+    .catch(error => {
+      console.error('물금읍 GeoJSON 불러오기 오류:', error);
+    });
+
+</script>
 
 </body>
 </html>
