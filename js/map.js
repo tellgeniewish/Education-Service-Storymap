@@ -161,3 +161,106 @@ fetch('data/mulgeum_boundary.geojson')
   .catch(error => {
     console.error('물금읍 GeoJSON 불러오기 오류:', error);
   });
+
+  // ==================================================
+// 3. 스크롤형 비교 스토리 지도
+// ==================================================
+
+
+// 대치4동
+const storyDaechiMap = L.map('story-daechi-map', {
+  zoomControl: false
+});
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }
+).addTo(storyDaechiMap);
+
+
+// 물금읍
+const storyMulgeumMap = L.map('story-mulgeum-map', {
+  zoomControl: false
+});
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }
+).addTo(storyMulgeumMap);
+
+
+// 대치4동 경계
+fetch('data/daechi4_boundary.geojson')
+  .then(response => response.json())
+  .then(data => {
+
+    const layer = L.geoJSON(data, {
+      style: dongStyle
+    }).addTo(storyDaechiMap);
+
+    storyDaechiMap.fitBounds(
+      layer.getBounds(),
+      { padding: [20, 20] }
+    );
+
+  });
+
+
+// 물금읍 경계
+fetch('data/mulgeum_boundary.geojson')
+  .then(response => response.json())
+  .then(data => {
+
+    const layer = L.geoJSON(data, {
+      style: dongStyle
+    }).addTo(storyMulgeumMap);
+
+    storyMulgeumMap.fitBounds(
+      layer.getBounds(),
+      { padding: [20, 20] }
+    );
+
+  });
+
+  // ==================================================
+// 4. 스토리 단계 스크롤 감지
+// ==================================================
+
+const storySteps = document.querySelectorAll('.story-step');
+
+const stepObserver = new IntersectionObserver(
+  entries => {
+
+    entries.forEach(entry => {
+
+      if (entry.isIntersecting) {
+
+        storySteps.forEach(step => {
+          step.classList.remove('active');
+        });
+
+        entry.target.classList.add('active');
+
+        const stepName = entry.target.dataset.step;
+
+        console.log('현재 단계:', stepName);
+      }
+
+    });
+
+  },
+  {
+    threshold: 0.6
+  }
+);
+
+
+storySteps.forEach(step => {
+  stepObserver.observe(step);
+});
