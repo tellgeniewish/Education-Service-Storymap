@@ -299,10 +299,23 @@ h2 {
   white-space: nowrap;
 }
 
-.academy-map-control button.selected {
+/* .academy-map-control button.selected {
   background: #C64A99;
   border-color: #C64A99;
   color: #ffffff;
+} */
+ /* 대치4동·물금읍 버튼: 진한 분홍 */
+.academy-map-control button[data-mode="local"].selected {
+  background: #C64A99;
+  border-color: #C64A99;
+  color: #ffffff;
+}
+
+/* 강남구·양산시 전체 버튼: 연한 분홍 */
+.academy-map-control button[data-mode="all"].selected {
+  background: #EAB4D3;
+  border-color: #EAB4D3;
+  color: #6B2854;
 }
 
 /* 확대 시 표시되는 학원명 */
