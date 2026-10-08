@@ -317,6 +317,170 @@ fetch('data/mulgeum_population.geojson')
   });
 
 // ==================================================
+// 3-2. 학령인구 격자 레이어
+// ==================================================
+
+
+// 학령인구 값에 따른 색상
+function getSchoolAgeColor(value) {
+  return value > 120 ? '#CB181D' :
+         value > 90  ? '#EF3B2C' :
+         value > 60  ? '#FB6A4A' :
+         value > 30  ? '#FC9272' :
+         value > 0   ? '#FEE0D2' :
+                       'transparent';
+}
+
+
+// 학령인구 격자 스타일
+function schoolAgeStyle(feature) {
+  const value = feature.properties.SCH_POP || 0;
+
+  return {
+    fillColor: getSchoolAgeColor(value),
+    weight: 0.25,
+    color: '#cccccc',
+    fillOpacity: value === 0 ? 0 : 0.8
+  };
+}
+
+
+// 대치4동 학령인구
+let daechiSchoolAgeLayer;
+
+fetch('data/daechi4_school_age.geojson')
+  .then(response => response.json())
+  .then(data => {
+
+    daechiSchoolAgeLayer = L.geoJSON(data, {
+      style: schoolAgeStyle,
+
+      onEachFeature: function(feature, layer) {
+        const population = feature.properties.SCH_POP;
+
+        layer.bindPopup(
+          `<b>학령인구</b><br>${population.toFixed(1)}명`
+        );
+      }
+
+    });
+
+  })
+  .catch(error => {
+    console.error('대치4동 학령인구 GeoJSON 불러오기 오류:', error);
+  });
+
+
+// 물금읍 학령인구
+let mulgeumSchoolAgeLayer;
+
+fetch('data/mulgeum_school_age.geojson')
+  .then(response => response.json())
+  .then(data => {
+
+    mulgeumSchoolAgeLayer = L.geoJSON(data, {
+      style: schoolAgeStyle,
+
+      onEachFeature: function(feature, layer) {
+        const population = feature.properties.SCH_POP;
+
+        layer.bindPopup(
+          `<b>학령인구</b><br>${population.toFixed(1)}명`
+        );
+      }
+
+    });
+
+  })
+  .catch(error => {
+    console.error('물금읍 학령인구 GeoJSON 불러오기 오류:', error);
+  });
+
+// ==================================================
+// 3-3. 스토리 지도 범례
+// ==================================================
+
+const storyLegend = document.getElementById('story-legend');
+
+
+function updateLegend(type) {
+
+  // 총인구
+  if (type === 'population') {
+
+    storyLegend.innerHTML = `
+      <span class="legend-title">총인구(명)</span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#DEEBF7;"></span>
+        1~50
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#9ECAE1;"></span>
+        51~100
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#6BAED6;"></span>
+        101~250
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#4292C6;"></span>
+        251~500
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#2171B5;"></span>
+        501 이상
+      </span>
+    `;
+
+  }
+
+
+  // 학령인구
+  if (type === 'school-age') {
+
+    storyLegend.innerHTML = `
+      <span class="legend-title">학령인구(명)</span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#FEE0D2;"></span>
+        1~30
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#FC9272;"></span>
+        31~60
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#FB6A4A;"></span>
+        61~90
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#EF3B2C;"></span>
+        91~120
+      </span>
+
+      <span class="legend-item">
+        <span class="legend-color" style="background:#CB181D;"></span>
+        121 이상
+      </span>
+    `;
+
+  }
+
+}
+
+
+// 최초 화면은 총인구 범례
+updateLegend('population');
+
+// ==================================================
 // 4. 스토리 단계 스크롤 감지
 // ==================================================
 
@@ -338,6 +502,91 @@ const stepObserver = new IntersectionObserver(
         const stepName = entry.target.dataset.step;
 
         console.log('현재 단계:', stepName);
+
+        // ------------------------------------------
+        // 01. 총인구
+        // ------------------------------------------
+
+        if (stepName === 'population') {
+
+          // 학령인구 제거
+          if (
+            daechiSchoolAgeLayer &&
+            storyDaechiMap.hasLayer(daechiSchoolAgeLayer)
+          ) {
+            storyDaechiMap.removeLayer(daechiSchoolAgeLayer);
+          }
+
+          if (
+            mulgeumSchoolAgeLayer &&
+            storyMulgeumMap.hasLayer(mulgeumSchoolAgeLayer)
+          ) {
+            storyMulgeumMap.removeLayer(mulgeumSchoolAgeLayer);
+          }
+
+
+          // 총인구 표시
+          if (
+            daechiPopulationLayer &&
+            !storyDaechiMap.hasLayer(daechiPopulationLayer)
+          ) {
+            daechiPopulationLayer.addTo(storyDaechiMap);
+          }
+
+          if (
+            mulgeumPopulationLayer &&
+            !storyMulgeumMap.hasLayer(mulgeumPopulationLayer)
+          ) {
+            mulgeumPopulationLayer.addTo(storyMulgeumMap);
+          }
+
+
+          // 범례 변경
+          updateLegend('population');
+        }
+
+
+        // ------------------------------------------
+        // 02. 학령인구
+        // ------------------------------------------
+
+        if (stepName === 'school-age') {
+
+          // 총인구 제거
+          if (
+            daechiPopulationLayer &&
+            storyDaechiMap.hasLayer(daechiPopulationLayer)
+          ) {
+            storyDaechiMap.removeLayer(daechiPopulationLayer);
+          }
+
+          if (
+            mulgeumPopulationLayer &&
+            storyMulgeumMap.hasLayer(mulgeumPopulationLayer)
+          ) {
+            storyMulgeumMap.removeLayer(mulgeumPopulationLayer);
+          }
+
+
+          // 학령인구 표시
+          if (
+            daechiSchoolAgeLayer &&
+            !storyDaechiMap.hasLayer(daechiSchoolAgeLayer)
+          ) {
+            daechiSchoolAgeLayer.addTo(storyDaechiMap);
+          }
+
+          if (
+            mulgeumSchoolAgeLayer &&
+            !storyMulgeumMap.hasLayer(mulgeumSchoolAgeLayer)
+          ) {
+            mulgeumSchoolAgeLayer.addTo(storyMulgeumMap);
+          }
+
+
+          // 범례 변경
+          updateLegend('school-age');
+        }
       }
 
     });

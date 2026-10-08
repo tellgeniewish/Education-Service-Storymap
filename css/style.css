@@ -165,9 +165,60 @@ h2 {
 }
 
 @media (max-width: 650px) {
-
   .story-map-panel {
     grid-template-columns: 1fr;
   }
+}
 
+/* 스토리 지도 공통 범례 */
+.story-legend {
+  grid-column: 1 / -1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 14px;
+  padding: 12px 16px;
+
+  font-size: 13px;
+  color: #555;
+}
+
+.legend-title {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.story-point {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.story-point strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #777;
+  letter-spacing: 0.08em;
+}
+
+.story-point p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #555;
 }
