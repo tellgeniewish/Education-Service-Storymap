@@ -85,6 +85,7 @@ h2 {
   flex-direction: column;
   gap: 220px;
   padding-bottom: 300px;
+  padding-top: 58px;
 }
 
 .story-step {
