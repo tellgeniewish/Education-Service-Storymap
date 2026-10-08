@@ -292,3 +292,42 @@ h2 {
 .academy-label::before {
   display: none;
 }
+
+/* ==========================================
+   학교 도보권 ON/OFF 버튼
+========================================== */
+
+.walking-map-control {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.walking-map-control button {
+  border: 1px solid #e4e4e4;
+  background: #ffffff;
+  color: #555555;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* 도보 5분 버튼: 진한 보라 */
+.walking-map-control button[data-minutes="5"].selected {
+  background: #9C79D0;
+  border-color: #9C79D0;
+  color: #ffffff;
+}
+
+/* 도보 10분 버튼: 연한 보라 */
+.walking-map-control button[data-minutes="10"].selected {
+  background: #D9C9F2;
+  border-color: #D9C9F2;
+  color: #49365F;
+}
