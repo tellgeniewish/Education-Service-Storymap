@@ -481,112 +481,140 @@ function updateLegend(type) {
 updateLegend('population');
 
 // ==================================================
-// 4. 스토리 단계 스크롤 감지
+// 4. 스토리 단계 전환
+//    스크롤 + 카드 클릭
 // ==================================================
 
 const storySteps = document.querySelectorAll('.story-step');
 
+
+// --------------------------------------------------
+// 단계에 따라 지도 레이어 변경
+// --------------------------------------------------
+
+function showStoryStep(stepName) {
+
+  // 모든 카드 강조 해제
+  storySteps.forEach(step => {
+    step.classList.remove('active');
+  });
+
+  // 현재 카드 강조
+  const activeStep = document.querySelector(
+    `.story-step[data-step="${stepName}"]`
+  );
+
+  if (activeStep) {
+    activeStep.classList.add('active');
+  }
+
+
+  // ------------------------------------------
+  // 01. 총인구
+  // ------------------------------------------
+
+  if (stepName === 'population') {
+
+    // 학령인구 제거
+    if (
+      daechiSchoolAgeLayer &&
+      storyDaechiMap.hasLayer(daechiSchoolAgeLayer)
+    ) {
+      storyDaechiMap.removeLayer(daechiSchoolAgeLayer);
+    }
+
+    if (
+      mulgeumSchoolAgeLayer &&
+      storyMulgeumMap.hasLayer(mulgeumSchoolAgeLayer)
+    ) {
+      storyMulgeumMap.removeLayer(mulgeumSchoolAgeLayer);
+    }
+
+
+    // 총인구 표시
+    if (
+      daechiPopulationLayer &&
+      !storyDaechiMap.hasLayer(daechiPopulationLayer)
+    ) {
+      daechiPopulationLayer.addTo(storyDaechiMap);
+    }
+
+    if (
+      mulgeumPopulationLayer &&
+      !storyMulgeumMap.hasLayer(mulgeumPopulationLayer)
+    ) {
+      mulgeumPopulationLayer.addTo(storyMulgeumMap);
+    }
+
+
+    updateLegend('population');
+  }
+
+
+  // ------------------------------------------
+  // 02. 학령인구
+  // ------------------------------------------
+
+  if (stepName === 'school-age') {
+
+    // 총인구 제거
+    if (
+      daechiPopulationLayer &&
+      storyDaechiMap.hasLayer(daechiPopulationLayer)
+    ) {
+      storyDaechiMap.removeLayer(daechiPopulationLayer);
+    }
+
+    if (
+      mulgeumPopulationLayer &&
+      storyMulgeumMap.hasLayer(mulgeumPopulationLayer)
+    ) {
+      storyMulgeumMap.removeLayer(mulgeumPopulationLayer);
+    }
+
+
+    // 학령인구 표시
+    if (
+      daechiSchoolAgeLayer &&
+      !storyDaechiMap.hasLayer(daechiSchoolAgeLayer)
+    ) {
+      daechiSchoolAgeLayer.addTo(storyDaechiMap);
+    }
+
+    if (
+      mulgeumSchoolAgeLayer &&
+      !storyMulgeumMap.hasLayer(mulgeumSchoolAgeLayer)
+    ) {
+      mulgeumSchoolAgeLayer.addTo(storyMulgeumMap);
+    }
+
+
+    updateLegend('school-age');
+  }
+}
+
+
+// ==================================================
+// 4-1. 스크롤로 단계 변경
+// ==================================================
+let isClickScrolling = false;
+
 const stepObserver = new IntersectionObserver(
   entries => {
+
+    // 카드 클릭으로 이동 중이면
+    // 스크롤 감지에 의한 단계 변경을 잠시 막음
+    if (isClickScrolling) {
+      return;
+    }
 
     entries.forEach(entry => {
 
       if (entry.isIntersecting) {
 
-        storySteps.forEach(step => {
-          step.classList.remove('active');
-        });
-
-        entry.target.classList.add('active');
-
         const stepName = entry.target.dataset.step;
 
-        console.log('현재 단계:', stepName);
-
-        // ------------------------------------------
-        // 01. 총인구
-        // ------------------------------------------
-
-        if (stepName === 'population') {
-
-          // 학령인구 제거
-          if (
-            daechiSchoolAgeLayer &&
-            storyDaechiMap.hasLayer(daechiSchoolAgeLayer)
-          ) {
-            storyDaechiMap.removeLayer(daechiSchoolAgeLayer);
-          }
-
-          if (
-            mulgeumSchoolAgeLayer &&
-            storyMulgeumMap.hasLayer(mulgeumSchoolAgeLayer)
-          ) {
-            storyMulgeumMap.removeLayer(mulgeumSchoolAgeLayer);
-          }
-
-
-          // 총인구 표시
-          if (
-            daechiPopulationLayer &&
-            !storyDaechiMap.hasLayer(daechiPopulationLayer)
-          ) {
-            daechiPopulationLayer.addTo(storyDaechiMap);
-          }
-
-          if (
-            mulgeumPopulationLayer &&
-            !storyMulgeumMap.hasLayer(mulgeumPopulationLayer)
-          ) {
-            mulgeumPopulationLayer.addTo(storyMulgeumMap);
-          }
-
-
-          // 범례 변경
-          updateLegend('population');
-        }
-
-
-        // ------------------------------------------
-        // 02. 학령인구
-        // ------------------------------------------
-
-        if (stepName === 'school-age') {
-
-          // 총인구 제거
-          if (
-            daechiPopulationLayer &&
-            storyDaechiMap.hasLayer(daechiPopulationLayer)
-          ) {
-            storyDaechiMap.removeLayer(daechiPopulationLayer);
-          }
-
-          if (
-            mulgeumPopulationLayer &&
-            storyMulgeumMap.hasLayer(mulgeumPopulationLayer)
-          ) {
-            storyMulgeumMap.removeLayer(mulgeumPopulationLayer);
-          }
-
-
-          // 학령인구 표시
-          if (
-            daechiSchoolAgeLayer &&
-            !storyDaechiMap.hasLayer(daechiSchoolAgeLayer)
-          ) {
-            daechiSchoolAgeLayer.addTo(storyDaechiMap);
-          }
-
-          if (
-            mulgeumSchoolAgeLayer &&
-            !storyMulgeumMap.hasLayer(mulgeumSchoolAgeLayer)
-          ) {
-            mulgeumSchoolAgeLayer.addTo(storyMulgeumMap);
-          }
-
-
-          // 범례 변경
-          updateLegend('school-age');
-        }
+        showStoryStep(stepName);
       }
 
     });
@@ -600,4 +628,36 @@ const stepObserver = new IntersectionObserver(
 
 storySteps.forEach(step => {
   stepObserver.observe(step);
+});
+
+
+// ==================================================
+// 4-2. 카드 클릭으로 단계 변경
+// ==================================================
+
+storySteps.forEach(step => {
+
+  step.addEventListener('click', () => {
+
+    const stepName = step.dataset.step;
+
+    // 클릭 이동 중에는 IntersectionObserver 잠시 중지
+    isClickScrolling = true;
+
+    // 해당 단계 지도 표시
+    showStoryStep(stepName);
+
+    // 클릭한 카드를 화면 중앙으로 부드럽게 이동
+    step.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+
+    // 이동이 끝난 뒤 다시 스크롤 감지 허용
+    setTimeout(() => {
+      isClickScrolling = false;
+    }, 700);
+
+  });
+
 });

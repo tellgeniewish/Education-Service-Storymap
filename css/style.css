@@ -83,7 +83,7 @@ h2 {
 .story-steps {
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  gap: 220px;
   padding-bottom: 300px;
 }
 
@@ -94,6 +94,7 @@ h2 {
   background: #f7f7f7;
   opacity: 0.45;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .story-step.active {
@@ -118,6 +119,9 @@ h2 {
   margin: 0;
 }
 
+.story-step:hover {
+  opacity: 0.75;
+}
 
 /* 오른쪽 지도 */
 
@@ -177,7 +181,9 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+
+  flex-wrap: nowrap;
+  white-space: nowrap;
 
   gap: 14px;
   padding: 12px 16px;
