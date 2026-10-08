@@ -887,7 +887,7 @@ function createAcademyMarker(feature, isLocal) {
     pane: isLocal
       ? 'academyLocalPane'
       : 'academyRegionPane',
-    radius: isLocal ? 3.5 : 2.5,
+    radius: isLocal ? 3.5 : 3.5,
     color: '#ffffff',
     weight: isLocal ? 0.6 : 0.3,
     fillColor: isLocal ? '#C64A99' : '#EAB4D3',
@@ -926,7 +926,7 @@ function createAcademyMarker(feature, isLocal) {
   // });
 
   // return marker;
-  
+
   // 클릭 시 학원 정보 팝업
   let popup =
     `<b>${academyEscape(name)}</b>` +
