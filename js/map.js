@@ -175,7 +175,8 @@ fetch('data/mulgeum_boundary.geojson')
 
 // 대치4동
 const storyDaechiMap = L.map('story-daechi-map', {
-  zoomControl: false
+  zoomControl: false,
+  preferCanvas: true
 });
 
 L.tileLayer(
@@ -190,7 +191,8 @@ L.tileLayer(
 
 // 물금읍
 const storyMulgeumMap = L.map('story-mulgeum-map', {
-  zoomControl: false
+  zoomControl: false,
+  preferCanvas: true
 });
 
 L.tileLayer(
@@ -857,20 +859,53 @@ function applyAcademyView(region) {
         : 'data/mulgeum_boundary.geojson');
 
   fetch(boundaryFile)
-    .then(response => response.json())
-    .then(data => {
-      if (!document.querySelector(
-        '.story-step[data-step="academy"].active'
-      )) return;
+    // .then(response => response.json())
+    // .then(data => {
+    //   if (!document.querySelector(
+    //     '.story-step[data-step="academy"].active'
+    //   )) return;
 
-      const bounds = L.geoJSON(data).getBounds();
+    //   const bounds = L.geoJSON(data).getBounds();
 
-      if (bounds.isValid()) {
-        map.fitBounds(bounds, {
-          padding: [20, 20]
-        });
-      }
-    });
+    //   if (bounds.isValid()) {
+    //     map.fitBounds(bounds, {
+    //       padding: [20, 20]
+    //     });
+    //   }
+    // });
+    .then(response => {
+    if (!response.ok) {
+      throw new Error(
+        `${boundaryFile}: HTTP ${response.status}`
+      );
+    }
+    return response.json();
+  })
+  .then(data => {
+
+    const activeStep = document.querySelector(
+      '.story-step.active'
+    );
+
+    if (!activeStep ||
+        activeStep.dataset.step !== 'academy') {
+      return;
+    }
+
+    const bounds = L.geoJSON(data).getBounds();
+
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, {
+        padding: [20, 20]
+      });
+    } else {
+      console.error('지도 경계가 유효하지 않습니다:', boundaryFile);
+    }
+
+  })
+  .catch(error => {
+    console.error('학원 지도 범위 변경 실패:', error);
+  });
 
   updateAcademyLabels(map);
 }
@@ -911,9 +946,15 @@ function createAcademyControl(map, region) {
 
     container.querySelectorAll('button').forEach(button => {
 
-      button.addEventListener('click', () => {
+      // button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+
+        event.preventDefault();
+        event.stopPropagation();
 
         const mode = button.dataset.mode;
+
+        console.log('학원 버튼 클릭:', region, mode);
 
         academyView[region] = mode;
 
@@ -1091,7 +1132,15 @@ const storySteps = document.querySelectorAll('.story-step');
 // 단계에 따라 지도 레이어 변경
 // --------------------------------------------------
 
+// 현재 지도에 표시 중인 스토리 단계
+let currentStoryStep = null;
+
 function showStoryStep(stepName) {
+
+  // 같은 단계라면 지도 레이어를 다시 그리지 않음
+  if (currentStoryStep === stepName) return;
+
+  currentStoryStep = stepName;
 
   // 04번 카드에서만 학원 버튼 표시
   const isAcademy = stepName === 'academy';
@@ -1297,36 +1346,89 @@ function showStoryStep(stepName) {
 // ==================================================
 let isClickScrolling = false;
 
-const stepObserver = new IntersectionObserver(
-  entries => {
+// const stepObserver = new IntersectionObserver(
+//   entries => {
 
-    // 카드 클릭으로 이동 중이면
-    // 스크롤 감지에 의한 단계 변경을 잠시 막음
-    if (isClickScrolling) {
-      return;
+//     // 카드 클릭으로 이동 중이면
+//     // 스크롤 감지에 의한 단계 변경을 잠시 막음
+//     if (isClickScrolling) {
+//       return;
+//     }
+
+//     entries.forEach(entry => {
+
+//       if (entry.isIntersecting) {
+
+//         const stepName = entry.target.dataset.step;
+
+//         showStoryStep(stepName);
+//       }
+
+//     });
+
+//   },
+//   {
+//     threshold: 0.8
+//   }
+// );
+
+
+// storySteps.forEach(step => {
+//   stepObserver.observe(step);
+// });
+let scrollUpdatePending = false;
+
+function updateStepFromScroll() {
+
+  if (isClickScrolling) return;
+
+  const targetY = window.innerHeight * 0.45;
+
+  let closestStep = null;
+  let closestDistance = Infinity;
+
+  storySteps.forEach(step => {
+
+    const rect = step.getBoundingClientRect();
+
+    const centerY = rect.top + rect.height / 2;
+
+    const distance = Math.abs(centerY - targetY);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestStep = step;
     }
 
-    entries.forEach(entry => {
+  });
 
-      if (entry.isIntersecting) {
-
-        const stepName = entry.target.dataset.step;
-
-        showStoryStep(stepName);
-      }
-
-    });
-
-  },
-  {
-    threshold: 0.8
+  if (closestStep) {
+    showStoryStep(closestStep.dataset.step);
   }
-);
+}
 
+function requestStepUpdate() {
 
-storySteps.forEach(step => {
-  stepObserver.observe(step);
+  if (scrollUpdatePending) return;
+
+  scrollUpdatePending = true;
+
+  requestAnimationFrame(() => {
+
+    scrollUpdatePending = false;
+    updateStepFromScroll();
+
+  });
+}
+
+window.addEventListener('scroll', requestStepUpdate, {
+  passive: true
 });
+
+window.addEventListener('resize', requestStepUpdate);
+
+// 초기 단계 표시
+showStoryStep('population');
 
 
 // ==================================================
