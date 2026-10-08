@@ -236,6 +236,31 @@ fetch('data/mulgeum_boundary.geojson')
 
   });
 
+  // ==================================================
+  // 스토리 지도 레이어 표시 순서 설정
+  // ==================================================
+
+  // 총인구: 아래쪽
+  storyDaechiMap.createPane('populationPane');
+  storyMulgeumMap.createPane('populationPane');
+
+  storyDaechiMap.getPane('populationPane').style.zIndex = 410;
+  storyMulgeumMap.getPane('populationPane').style.zIndex = 410;
+
+  // 학령인구: 총인구 위
+  storyDaechiMap.createPane('schoolAgePane');
+  storyMulgeumMap.createPane('schoolAgePane');
+
+  storyDaechiMap.getPane('schoolAgePane').style.zIndex = 420;
+  storyMulgeumMap.getPane('schoolAgePane').style.zIndex = 420;
+
+  // 학교: 가장 위
+  storyDaechiMap.createPane('schoolPane');
+  storyMulgeumMap.createPane('schoolPane');
+
+  storyDaechiMap.getPane('schoolPane').style.zIndex = 430;
+  storyMulgeumMap.getPane('schoolPane').style.zIndex = 430;
+
 // ==================================================
 // 3-1. 총인구 격자 레이어
 // ==================================================
@@ -273,6 +298,7 @@ fetch('data/daechi4_population.geojson')
   .then(data => {
 
     daechiPopulationLayer = L.geoJSON(data, {
+      pane: 'populationPane',
       style: populationStyle,
 
       onEachFeature: function(feature, layer) {
@@ -299,6 +325,7 @@ fetch('data/mulgeum_population.geojson')
   .then(data => {
 
     mulgeumPopulationLayer = L.geoJSON(data, {
+      pane: 'populationPane',
       style: populationStyle,
 
       onEachFeature: function(feature, layer) {
@@ -353,6 +380,7 @@ fetch('data/daechi4_school_age.geojson')
   .then(data => {
 
     daechiSchoolAgeLayer = L.geoJSON(data, {
+      pane: 'schoolAgePane',
       style: schoolAgeStyle,
 
       onEachFeature: function(feature, layer) {
@@ -379,6 +407,7 @@ fetch('data/mulgeum_school_age.geojson')
   .then(data => {
 
     mulgeumSchoolAgeLayer = L.geoJSON(data, {
+      pane: 'schoolAgePane',
       style: schoolAgeStyle,
 
       onEachFeature: function(feature, layer) {
@@ -420,6 +449,7 @@ function loadSchoolLayer(file, schoolType, targetGroup) {
       L.geoJSON(data, {
         pointToLayer: function(feature, latlng) {
           return L.circleMarker(latlng, {
+            pane: 'schoolPane',
             radius: 7,
             color: '#ffffff',
             weight: 1.5,
