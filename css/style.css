@@ -372,3 +372,206 @@ h2 {
   border-color: #D9C9F2;
   color: #49365F;
 }
+
+/* ==========================================
+   결론 가로 막대그래프
+========================================== */
+
+.conclusion-chart {
+  margin: 35px 0 45px;
+  padding: 28px 32px;
+  background: #fafbfc;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+}
+
+.conclusion-chart h3 {
+  margin: 0 0 28px;
+  font-size: 17px;
+}
+
+.comparison-item {
+  margin-bottom: 22px;
+}
+
+.comparison-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+  font-size: 14px;
+}
+
+.comparison-label strong {
+  font-size: 15px;
+}
+
+.comparison-track {
+  width: 100%;
+  height: 15px;
+  background: #e9edf1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.comparison-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.comparison-bar.mulgeum-bar {
+  width: 100%;
+  background: #36A99B;
+}
+
+.comparison-bar.daechi-bar {
+  width: 87.47%;
+  background: #E67E93;
+}
+
+.comparison-caption {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: #777;
+  text-align: right;
+}
+
+/* 모바일 */
+
+@media (max-width: 650px) {
+  .intro-section h1 {
+    font-size: 30px;
+  }
+
+  .intro-stats {
+    gap: 10px;
+  }
+
+  .intro-stat {
+    padding: 18px 14px;
+  }
+
+  .intro-stat strong {
+    font-size: 30px;
+  }
+
+  .intro-stat span {
+    font-size: 12px;
+  }
+
+  .conclusion-chart {
+    padding: 22px 18px;
+  }
+}
+
+/* ==========================================
+   최종 결론 섹션
+========================================== */
+
+.conclusion-section {
+  margin-top: 140px;
+  margin-bottom: 100px;
+  padding-top: 55px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.conclusion-label {
+  display: inline-block;
+  color: #C64A99;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.conclusion-section h2 {
+  margin-top: 14px;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.conclusion-intro {
+  max-width: 760px;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.conclusion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.conclusion-card {
+  background: #f8f9fa;
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #eeeeee;
+}
+
+.conclusion-number {
+  font-size: 13px;
+  font-weight: 700;
+  color: #C64A99;
+}
+
+.conclusion-card h3 {
+  font-size: 19px;
+  margin: 12px 0;
+}
+
+.conclusion-card p {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.85;
+  margin: 0;
+}
+
+.conclusion-message {
+  margin-top: 36px;
+  padding: 36px;
+  background: #fcf7fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.conclusion-message h3 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.conclusion-message p {
+  max-width: 750px;
+  margin: 0 auto 22px;
+  color: #555;
+  line-height: 1.9;
+}
+
+.conclusion-message strong {
+  display: block;
+  color: #A43D7C;
+  font-size: 17px;
+}
+
+.conclusion-note {
+  margin-top: 22px;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.7;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .conclusion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .conclusion-section h2 {
+    font-size: 25px;
+  }
+
+  .conclusion-message {
+    padding: 26px 20px;
+  }
+}
