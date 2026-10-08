@@ -51,6 +51,12 @@ const dongStyle = {
 };
 
 
+// 스크롤형 스토리 지도용 행정동 경계 스타일
+const storyBoundaryStyle = {
+  color: '#666666',
+  weight: 1.5,
+  fillOpacity: 0
+};
 
 // --------------------------------------------------
 // 2-1. 강남구 지도
@@ -176,6 +182,7 @@ L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     maxZoom: 19,
+    opacity: 0.55,
     attribution: '&copy; OpenStreetMap contributors'
   }
 ).addTo(storyDaechiMap);
@@ -190,6 +197,7 @@ L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     maxZoom: 19,
+    opacity: 0.55,
     attribution: '&copy; OpenStreetMap contributors'
   }
 ).addTo(storyMulgeumMap);
@@ -201,7 +209,7 @@ fetch('data/daechi4_boundary.geojson')
   .then(data => {
 
     const layer = L.geoJSON(data, {
-      style: dongStyle
+      style: storyBoundaryStyle
     }).addTo(storyDaechiMap);
 
     storyDaechiMap.fitBounds(
@@ -218,7 +226,7 @@ fetch('data/mulgeum_boundary.geojson')
   .then(data => {
 
     const layer = L.geoJSON(data, {
-      style: dongStyle
+      style: storyBoundaryStyle
     }).addTo(storyMulgeumMap);
 
     storyMulgeumMap.fitBounds(
@@ -235,11 +243,11 @@ fetch('data/mulgeum_boundary.geojson')
 
 // 총인구 값에 따른 색상
 function getPopulationColor(value) {
-  return value > 500 ? '#A9C6D6' :
-         value > 250 ? '#C7DAE5' :
-         value > 100 ? '#DCE8EF' :
-         value > 50  ? '#EDF3F7' :
-         value > 0   ? '#F7FAFC' :
+  return value > 500 ? '#2171B5' :
+         value > 250 ? '#4292C6' :
+         value > 100 ? '#6BAED6' :
+         value > 50  ? '#9ECAE1' :
+         value > 0   ? '#DEEBF7' :
                        'transparent';
 }
 
@@ -250,8 +258,8 @@ function populationStyle(feature) {
 
   return {
     fillColor: getPopulationColor(value),
-    weight: 0.5,
-    color: '#999999',
+    weight: 0.25,
+    color: '#cccccc',
     fillOpacity: value === 0 ? 0 : 0.75
   };
 }
