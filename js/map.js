@@ -431,8 +431,8 @@ fetch('data/mulgeum_school_age.geojson')
 
 const schoolColors = {
   elementary: '#F2C94C',
-  middle: '#F2994A',
-  high: '#E77AA8'
+  middle: '#49A87A',
+  high: '#F2994A'
 };
 
 const daechiSchoolLayers = L.layerGroup();
@@ -554,6 +554,98 @@ storyMulgeumMap.on('zoomend', function() {
 });
 
 // ==================================================
+// 3-3-2. 학원·교습소 위치 레이어
+// ==================================================
+
+// 대치4동과 물금읍 학원 레이어 그룹
+const daechiAcademyLayers = L.layerGroup();
+const mulgeumAcademyLayers = L.layerGroup();
+
+// 학원·교습소 GeoJSON 불러오기
+function loadAcademyLayer(file, targetGroup) {
+
+  fetch(file)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`${file} 불러오기 실패: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+
+      L.geoJSON(data, {
+
+        // 학원 위치를 분홍색 원으로 표시
+        pointToLayer: function(feature, latlng) {
+
+          return L.circleMarker(latlng, {
+            radius: 3,
+            color: '#ffffff',
+            weight: 0.5,
+            fillColor: '#C64A99',
+            fillOpacity: 0.75
+          });
+
+        },
+
+        // 학원 클릭 시 정보 표시
+        onEachFeature: function(feature, layer) {
+
+          const properties = feature.properties || {};
+
+          const name =
+            properties['학원명'] ||
+            properties['교습소명'] ||
+            properties['시설명'] ||
+            '학원·교습소';
+
+          const category = properties['분야명'];
+
+          // HTML 특수문자 처리
+          function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, function(char) {
+              return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+              }[char];
+            });
+          }
+
+          let popup = `<b>${escapeHtml(name)}</b>`;
+
+          if (category) {
+            popup += `<br>분야: ${escapeHtml(category)}`;
+          }
+
+          layer.bindPopup(popup);
+
+        }
+
+      }).addTo(targetGroup);
+
+    })
+    .catch(error => {
+      console.error('학원·교습소 데이터 오류:', error);
+    });
+
+}
+
+// 대치4동 학원·교습소
+loadAcademyLayer(
+  'data/daechi4_academy.geojson',
+  daechiAcademyLayers
+);
+
+// 물금읍 학원·교습소
+loadAcademyLayer(
+  'data/mulgeum_academy.geojson',
+  mulgeumAcademyLayers
+);
+
+// ==================================================
 // 3-4. 스토리 지도 범례
 // ==================================================
 
@@ -642,18 +734,34 @@ function updateLegend(type) {
 
         <span class="legend-item">
           <span class="legend-color"
-                style="background:#F2994A;"></span>
+                style="background:#49A87A;"></span>
           중학교
         </span>
 
         <span class="legend-item">
           <span class="legend-color"
-                style="background:#E77AA8;"></span>
+                style="background:#F2994A;"></span>
           고등학교
         </span>
       `;
   }
 
+  // ------------------------------------------
+  // 학원·교습소 범례
+  // ------------------------------------------
+  if (type === 'academy') {
+
+    storyLegend.innerHTML = `
+      <span class="legend-title">학원·교습소</span>
+
+      <span class="legend-item">
+        <span class="legend-color"
+              style="background:#C64A99;"></span>
+        학원·교습소 위치
+      </span>
+    `;
+
+  }
 }
 
 
@@ -673,6 +781,10 @@ const storySteps = document.querySelectorAll('.story-step');
 // --------------------------------------------------
 
 function showStoryStep(stepName) {
+
+  // 다른 카드로 이동할 때 학원 레이어 제거
+  storyDaechiMap.removeLayer(daechiAcademyLayers);
+  storyMulgeumMap.removeLayer(mulgeumAcademyLayers);
 
   // 모든 카드 강조 해제
   storySteps.forEach(step => {
@@ -806,6 +918,42 @@ function showStoryStep(stepName) {
     mulgeumSchoolLayers.addTo(storyMulgeumMap);
 
     updateLegend('school');
+  }
+
+  // ------------------------------------------
+  // 04. 학원·교습소
+  // ------------------------------------------
+  if (stepName === 'academy') {
+
+    // 총인구 레이어 제거
+    if (daechiPopulationLayer) {
+      storyDaechiMap.removeLayer(daechiPopulationLayer);
+    }
+
+    if (mulgeumPopulationLayer) {
+      storyMulgeumMap.removeLayer(mulgeumPopulationLayer);
+    }
+
+    // 학령인구 레이어 제거
+    if (daechiSchoolAgeLayer) {
+      storyDaechiMap.removeLayer(daechiSchoolAgeLayer);
+    }
+
+    if (mulgeumSchoolAgeLayer) {
+      storyMulgeumMap.removeLayer(mulgeumSchoolAgeLayer);
+    }
+
+    // 초·중·고 학교 레이어 제거
+    storyDaechiMap.removeLayer(daechiSchoolLayers);
+    storyMulgeumMap.removeLayer(mulgeumSchoolLayers);
+
+    // 학원·교습소 레이어 표시
+    daechiAcademyLayers.addTo(storyDaechiMap);
+    mulgeumAcademyLayers.addTo(storyMulgeumMap);
+
+    // 범례 변경
+    updateLegend('academy');
+
   }
 }
 
