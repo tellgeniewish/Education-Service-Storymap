@@ -732,13 +732,17 @@ function loadAcademyLayer(file, group, isLocal, map) {
 
           marker.bindPopup(popup);
 
-          marker.bindTooltip(academyEscape(name), {
-            permanent: true,
-            direction: 'right',
-            offset: [5, 0],
-            className: 'academy-label',
-            opacity: 0
-          });
+          // marker.bindTooltip(academyEscape(name), {
+          //   permanent: true,
+          //   direction: 'right',
+          //   offset: [5, 0],
+          //   className: 'academy-label',
+          //   opacity: 0
+          // });
+
+          // 학원명만 저장하고, 툴팁은 필요할 때 생성
+          marker.academyName = academyEscape(name);
+          marker.academyIsLocal = isLocal;
         }
 
       });
@@ -785,8 +789,7 @@ loadAcademyLayer(
 // 확대 수준에 따라 학원명 표시
 function updateAcademyLabels(map) {
 
-  const show =
-    map.getZoom() >= ACADEMY_LABEL_MIN_ZOOM;
+  const show = map.getZoom() >= ACADEMY_LABEL_MIN_ZOOM;
 
   const groups = map === storyDaechiMap
     ? [daechiAcademyLayers, gangnamAcademyLayers]
@@ -794,14 +797,42 @@ function updateAcademyLabels(map) {
 
   groups.forEach(group => {
 
+    // 화면에 표시되지 않는 레이어는 처리하지 않음
+    if (!map.hasLayer(group)) return;
+
     group.eachLayer(geojson => {
 
       geojson.eachLayer(marker => {
 
-        const tooltip = marker.getTooltip();
+        // 핵심 지역 학원만 이름 표시
+        // 강남구·양산시 전체 학원은 클릭 팝업으로 확인
+        const shouldShow = show && marker.academyIsLocal;
 
-        if (tooltip) {
-          tooltip.setOpacity(show ? 1 : 0);
+        // const tooltip = marker.getTooltip();
+
+        // if (tooltip) {
+        //   tooltip.setOpacity(show ? 1 : 0);
+        // }
+
+        if (shouldShow) {
+
+          if (!marker.getTooltip()) {
+
+            marker.bindTooltip(marker.academyName, {
+              permanent: true,
+              direction: 'right',
+              offset: [5, 0],
+              className: 'academy-label'
+            });
+
+          }
+
+        } else {
+
+          if (marker.getTooltip()) {
+            marker.unbindTooltip();
+          }
+
         }
 
       });
