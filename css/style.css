@@ -58,6 +58,34 @@ h2 {
   }
 }
 
+/* 첫 번째 지도: 지역별 위치 마커 */
+
+.region-pin-icon {
+  background: transparent;
+  border: none;
+}
+
+.region-pin {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  background: var(--pin-color);
+  border: 3px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.25);
+}
+
+.region-pin-center {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  top: 9px;
+  left: 9px;
+}
+
 /* ==================================================
    스크롤형 비교 스토리
 ================================================== */

@@ -15,17 +15,44 @@ L.tileLayer(
 
 
 // 물금읍 위치
-const mulgeum = L.marker([35.31, 129.01])
-  .addTo(map)
-  .bindPopup('<b>경상남도 양산시 물금읍</b>');
+// const mulgeum = L.marker([35.31, 129.01])
+//   .addTo(map)
+//   .bindPopup('<b>경상남도 양산시 물금읍</b>');
 
 
 // 대치4동 위치
-const daechi = L.marker([37.50, 127.06])
+// const daechi = L.marker([37.50, 127.06])
+//   .addTo(map)
+//   .bindPopup('<b>서울특별시 강남구 대치4동</b>');
+
+// 지역별 색상 마커 생성
+function createRegionIcon(color) {
+  return L.divIcon({
+    className: 'region-pin-icon',
+    html: `
+      <div class="region-pin" style="--pin-color:${color}">
+        <div class="region-pin-center"></div>
+      </div>
+    `,
+    iconSize: [32, 42],
+    iconAnchor: [16, 42],
+    popupAnchor: [0, -40]
+  });
+}
+
+// 물금읍: 청록색
+const mulgeum = L.marker([35.31, 129.01], {
+  icon: createRegionIcon('#36A99B')
+})
+  .addTo(map)
+  .bindPopup('<b>경상남도 양산시 물금읍</b>');
+
+// 대치4동: 코랄 핑크
+const daechi = L.marker([37.50, 127.06], {
+  icon: createRegionIcon('#E67E93')
+})
   .addTo(map)
   .bindPopup('<b>서울특별시 강남구 대치4동</b>');
-
-
 
 // ==================================================
 // 2. 행정경계 비교 지도
