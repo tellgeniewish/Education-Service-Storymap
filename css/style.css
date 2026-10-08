@@ -58,6 +58,82 @@ h2 {
   }
 }
 
+/* ==========================================
+   스토리맵 도입부 - 담백한 설명형 디자인
+========================================== */
+
+.intro-section {
+  max-width: none;
+  margin-bottom: 80px;
+}
+
+.intro-section h1 {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin: 0 0 36px;
+  line-height: 1.4;
+}
+
+.intro-description {
+  font-size: 16px;
+  color: #555;
+  line-height: 2;
+  margin: 0 0 26px;
+}
+
+/* 핵심 통계와 질문 */
+.intro-highlight {
+  margin: 34px 0;
+  padding: 8px 0 8px 24px;
+  border-left: 3px solid #36A99B;
+}
+
+.intro-highlight p {
+  margin: 0;
+  font-size: 16px;
+  color: #444;
+  line-height: 1.9;
+}
+
+.intro-highlight strong {
+  color: #222;
+  font-weight: 700;
+}
+
+.intro-highlight .intro-question {
+  margin-top: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* 작성자 */
+.intro-author {
+  margin-top: 40px;
+  padding-top: 14px;
+  /* border-top: 1px solid #eeeeee; */
+  font-size: 17px;
+  color: #222;
+  text-align: right;
+}
+
+/* 모바일 */
+@media (max-width: 650px) {
+  .intro-section h1 {
+    font-size: 29px;
+  }
+
+  .intro-description,
+  .intro-highlight p {
+    font-size: 15px;
+  }
+
+  .intro-highlight {
+    padding-left: 16px;
+  }
+}
+
 /* 첫 번째 지도: 지역별 위치 마커 */
 
 .region-pin-icon {
