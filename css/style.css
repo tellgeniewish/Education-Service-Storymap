@@ -245,3 +245,50 @@ h2 {
 .school-label::before {
   display: none;
 }
+
+/* ==========================================
+   학원·교습소 지역 선택 버튼
+========================================== */
+
+.academy-map-control {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.academy-map-control button {
+  border: 1px solid #e4e4e4;
+  background: #ffffff;
+  color: #555555;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.academy-map-control button.selected {
+  background: #C64A99;
+  border-color: #C64A99;
+  color: #ffffff;
+}
+
+/* 확대 시 표시되는 학원명 */
+.academy-label {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e2d5df;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #6B2854;
+  box-shadow: none;
+}
+
+.academy-label::before {
+  display: none;
+}
