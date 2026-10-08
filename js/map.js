@@ -912,18 +912,31 @@ function createAcademyMarker(feature, isLocal) {
   marker.academyName = academyEscape(name);
 
   // 클릭 시 팝업 생성: 초기 처리량 감소
-  marker.bindPopup(function() {
+  // marker.bindPopup(function() {
 
-    let html =
-      `<b>${academyEscape(name)}</b>` +
-      `<br>분야: ${academyEscape(category)}`;
+  //   let html =
+  //     `<b>${academyEscape(name)}</b>` +
+  //     `<br>분야: ${academyEscape(category)}`;
 
-    if (address) {
-      html += `<br>주소: ${academyEscape(address)}`;
-    }
+  //   if (address) {
+  //     html += `<br>주소: ${academyEscape(address)}`;
+  //   }
 
-    return html;
-  });
+  //   return html;
+  // });
+
+  // return marker;
+  
+  // 클릭 시 학원 정보 팝업
+  let popup =
+    `<b>${academyEscape(name)}</b>` +
+    `<br>분야: ${academyEscape(category)}`;
+
+  if (address) {
+    popup += `<br>주소: ${academyEscape(address)}`;
+  }
+
+  marker.bindPopup(popup);
 
   return marker;
 }
