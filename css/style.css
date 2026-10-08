@@ -229,3 +229,19 @@ h2 {
   line-height: 1.65;
   color: #555;
 }
+
+/* 학교명 지도 라벨 */
+.school-label {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #333333;
+  box-shadow: none;
+}
+
+.school-label::before {
+  display: none;
+}
