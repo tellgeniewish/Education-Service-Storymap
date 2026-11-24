@@ -68,13 +68,13 @@ function loadIndustryData() {
 // ==================================================
 
 const INDUSTRY_PIE_COLORS = [
-  '#FFE680', // 레몬 옐로우
-  '#FFB48F', // 피치 오렌지
-  '#B9A7F5', // 라이트 퍼플
-  '#8FD3FF', // 스카이 블루
-  '#B5E88C', // 애플 그린
-  '#E2B4FF', // 라일락
-  '#82E2E5'  // 아쿠아 블루
+  '#FFD84D', // 일반 교과 학원 - Sunshine Yellow
+  '#F542A7', // 음악학원 - Hot Magenta
+  '#9560FF', // 기타 스포츠 교육기관 - Electric Violet
+  '#23C9C2', // 태권도 및 무술 교육기관 - Bright Turquoise
+  '#58D67B', // 미술학원 - Fresh Mint
+  '#FF8FBC', // 기타 기술 및 직업훈련학원 - Candy Pink
+  '#7893C9'  // 교육관련 자문 및 평가업 - Periwinkle
 ];
 
 function renderIndustryPie(targetId, featured, regionKey) {

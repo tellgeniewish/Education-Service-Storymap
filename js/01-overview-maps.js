@@ -40,16 +40,16 @@ function createRegionIcon(color) {
   });
 }
 
-// 물금읍: 청록색
+// 물금읍: 코발트 블루
 const mulgeum = L.marker([35.31, 129.01], {
-  icon: createRegionIcon('#36A99B')
+  icon: createRegionIcon('#2455F5')
 })
   .addTo(map)
   .bindPopup('<b>경상남도 양산시 물금읍</b>');
 
-// 대치4동: 코랄 핑크
+// 대치4동: 비비드 오렌지
 const daechi = L.marker([37.50, 127.06], {
-  icon: createRegionIcon('#E67E93')
+  icon: createRegionIcon('#FF603D')
 })
   .addTo(map)
   .bindPopup('<b>서울특별시 강남구 대치4동</b>');

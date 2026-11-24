@@ -1,0 +1,113 @@
+/* Swiss Graphic Brutalism x Modern Riso Print
+   Presentation-only overrides. No content, map layer, or data modifications.
+   Region identity colors are standardized; quantitative and categorical map palettes retain their meanings. */
+:root {
+  --page-bg:#F8F9FC; --surface:#FFFFFF; --text:#142D4E;
+  --muted:#465873; --line:#B8C5D8;
+  --teal:#2455F5; --coral:#FF603D;
+  --electric:#2455F5; --orange:#FF603D; --lime:#C7FF35;
+  --ink:#142D4E; --paper:#F8F9FC;
+}
+html { scroll-behavior:smooth; }
+body { background:var(--paper); color:var(--ink); font-family:'Pretendard','Noto Sans KR',Arial,sans-serif; }
+::selection {background:var(--lime);color:var(--ink)}
+.content { max-width:1320px; }
+h1,h2,h3,h4 { letter-spacing:-.055em; }
+h2 { font-weight:850; line-height:1.18; }
+.intro-section { position:relative; border-bottom:5px solid var(--ink); padding-top:62px; padding-bottom:68px; isolation:isolate; }
+.intro-section::before { content:''; position:absolute; right:0; top:0; width:clamp(70px,14vw,180px); height:13px; background:linear-gradient(90deg,var(--electric) 0 66%,var(--orange) 66%); }
+.intro-eyebrow { display:inline-block; background:var(--lime); color:var(--ink) !important; padding:8px 13px; font-size:12px !important; font-weight:900; letter-spacing:.15em; border:2px solid var(--ink); }
+.intro-section h1 { max-width:1060px; font-size:clamp(45px,6.8vw,94px); line-height:1.08; letter-spacing:-.085em; font-weight:900; margin:34px 0 32px; }
+.intro-title-accent { color:var(--electric) !important; background:none !important; text-shadow:3px 3px 0 rgba(255,96,61,.19); }
+.intro-subtitle { font-weight:750; color:var(--ink) !important; font-size:clamp(17px,2vw,23px) !important; border-top:2px solid var(--ink); padding-top:19px; }
+.intro-description { color:var(--muted); }
+.intro-highlight { max-width:850px; background:var(--ink); color:white; padding:24px 30px; border:0; border-left:10px solid var(--orange); box-shadow:9px 9px 0 var(--lime); }
+.intro-highlight p,.intro-highlight .intro-question {color:white;}
+.intro-highlight strong {color:var(--lime);font-weight:900;}
+.intro-author { font-weight:700; color:var(--ink); }
+#map,#gangnam-map,#yangsan-map,#story-daechi-map,#story-mulgeum-map { border:2px solid var(--ink); border-radius:2px; box-shadow:none; }
+#map { box-shadow:9px 9px 0 rgba(36,85,245,.18); }
+.map-box { border:2px solid var(--ink); border-radius:2px; background:white; box-shadow:6px 6px 0 rgba(20,45,78,.13); }
+.map-box h3 {font-size:18px; font-weight:850; }
+.story-section { border-top:5px solid var(--ink); }
+.story-title h2 { font-size:clamp(32px,4.3vw,60px); }
+.story-step { position:relative; border:2px solid #B9C7D9; border-radius:2px; background:#EEF2F8; box-shadow:none; padding:30px 26px; }
+.story-step.active { background:#fff; border-color:var(--electric); box-shadow:7px 7px 0 var(--electric); transform:translate(-2px,-2px); }
+.story-step:hover {border-color:var(--ink);}
+.step-number { display:inline-block; background:var(--lime); color:var(--ink); padding:4px 10px; font-size:clamp(15px,1.6vw,21px); font-weight:950; font-style:italic; letter-spacing:-.045em; line-height:1.1; border:1px solid var(--ink); }
+.story-step h3 {font-weight:850; font-size:clamp(21px,2vw,27px); line-height:1.27; }
+.story-step > p {color:#3D4D63;}
+.story-point { border-top:2px solid var(--ink); }
+.story-point strong { color:var(--electric); }
+.story-map-panel { gap:16px; }
+.story-region {border:2px solid var(--ink);border-radius:2px;box-shadow:5px 5px 0 rgba(20,45,78,.12);}
+.story-region h3 { font-weight:850; }
+.story-legend { background:#fff; border:1px solid var(--line); padding:12px; }
+.industry-panel,.employees-panel {border:2px solid var(--ink);border-radius:2px;background:#fff;}
+.industry-heading h3,.employees-panel h3 {font-weight:850;}
+.industry-eyebrow,.employees-eyebrow { color:var(--electric);font-weight:900; }
+.industry-total,.employees-metric {background:#EDF2FF;border-left:4px solid var(--electric);border-radius:0;}
+.industry-total strong,.employees-metric strong {font-weight:900;letter-spacing:-.055em;}
+.industry-controls {flex-wrap:wrap;}
+.industry-button {border:2px solid var(--ink);border-radius:0;color:var(--ink);font-weight:750;}
+.industry-button.is-selected {background:var(--ink);border-color:var(--ink);color:white;}
+.industry-details {border:2px solid var(--ink);border-radius:0;}
+.industry-details summary {background:#EDF2FF;}
+.industry-details summary:hover {background:#DDE6FF;}
+.industry-table thead th {background:#E5EBFA;}
+.industry-pie-card {background:#F8F9FC;border:1px solid var(--line);border-radius:0;}
+.employees-insight {background:#EDF2FF;border-left:5px solid var(--electric);border-radius:0;}
+/* Region identity palette: visual-only overrides. Do not recolor quantitative
+   choropleths, school types, academy categories, or walking-time classes. */
+:root { --region-mulgeum:#2455F5; --region-daechi:#FF603D; }
+.trend-dot.mulgeum,.comparison-bar.mulgeum-bar,
+.industry-swatch-mulgeum,.industry-bar-mulgeum,
+.employees-bar-mulgeum { background:var(--region-mulgeum) !important; }
+.trend-dot.daechi,.comparison-bar.daechi-bar,
+.industry-swatch-daechi,.industry-bar-daechi,
+.employees-bar-daechi { background:var(--region-daechi) !important; }
+/* Preserve the two regions' identity in their map frame without changing layer fills. */
+#story-mulgeum-map { border-color:var(--region-mulgeum); }
+#story-daechi-map { border-color:var(--region-daechi); }
+
+.conclusion-section {border-top:6px solid var(--electric);}
+.conclusion-label {background:var(--lime);color:var(--ink);padding:6px 12px;letter-spacing:.1em;font-weight:900;}
+.conclusion-section h2 {font-size:clamp(36px,4.7vw,66px);font-weight:900;}
+.conclusion-card {background:#fff;border:2px solid var(--ink);border-radius:0;box-shadow:6px 6px 0 var(--electric);}
+.conclusion-card:nth-child(even) {box-shadow:6px 6px 0 var(--orange);}
+.conclusion-card:hover {transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
+.conclusion-number {display:inline-block;color:var(--electric);font-size:clamp(21px,3vw,36px);font-weight:950;font-style:italic;letter-spacing:-.05em;}
+.conclusion-card h3 {font-weight:850;font-size:22px;}
+.conclusion-chart,.conclusion-metrics {border:2px solid var(--ink);border-radius:0;background:#fff;}
+.conclusion-table thead th {background:#EDF2FF;color:var(--ink);}
+.conclusion-message {background:var(--electric);border:0;border-radius:0;color:white;text-align:left;padding:clamp(24px,4vw,56px);box-shadow:10px 10px 0 var(--lime);}
+.conclusion-message h3 {font-size:clamp(25px,3.4vw,44px);font-weight:900;color:white;}
+.conclusion-message p {color:white;max-width:none;}
+.conclusion-message strong,.conclusion-message .conclusion-inline-strong {color:var(--lime);}
+.conclusion-note {color:var(--muted);}
+@media(max-width:900px) {
+ .story-step.active {box-shadow:5px 5px 0 var(--electric);}
+ .intro-section h1 {font-size:clamp(38px,7vw,68px);}
+}
+@media(max-width:650px) {
+ .content {padding-left:20px;padding-right:20px;}
+ .intro-section {padding-top:36px;}
+ .intro-section h1 {font-size:clamp(36px,9.3vw,54px);}
+ .intro-highlight {padding:19px 17px;box-shadow:5px 5px 0 var(--lime);}
+ .story-step {padding:24px 20px;}
+ .story-step.active {transform:none;box-shadow:4px 4px 0 var(--electric);}
+ .conclusion-message {box-shadow:6px 6px 0 var(--lime);}
+ .conclusion-card {box-shadow:4px 4px 0 var(--electric);}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+
+/* 2026-11-24: school, walking and academy visualization palette */
+.walking-map-control button[data-minutes="5"].selected { background:#087F8C; border-color:#087F8C; color:#fff; }
+.walking-map-control button[data-minutes="10"].selected { background:#91E1D8; border-color:#91E1D8; color:#142D4E; }
+/* The left story map is Daechi 4-dong; the right map is Mulgeum-eup.
+   Region-specific controls are styled using their Leaflet container IDs below. */
+#story-daechi-map .academy-map-control button[data-mode="local"].selected { background:#FF603D; border-color:#FF603D; color:#142D4E; }
+#story-daechi-map .academy-map-control button[data-mode="all"].selected { background:#FFB19F; border-color:#FFB19F; color:#142D4E; }
+#story-mulgeum-map .academy-map-control button[data-mode="local"].selected { background:#2455F5; border-color:#2455F5; color:#fff; }
+#story-mulgeum-map .academy-map-control button[data-mode="all"].selected { background:#9AB0FF; border-color:#9AB0FF; color:#142D4E; }
+.academy-label { border-color:#142D4E; color:#142D4E; }

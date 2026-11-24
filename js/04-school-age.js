@@ -226,11 +226,11 @@ function renderSchoolAgeTrend() {
   const series = [
     {
       key: 'mulgeum',
-      color: '#36A99B'
+      color: '#2455F5'
     },
     {
       key: 'daechi4',
-      color: '#E67E93'
+      color: '#FF603D'
     }
   ];
 

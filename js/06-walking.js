@@ -23,9 +23,9 @@
 //       const layer = L.geoJSON(data, {
 //         pane: 'walkingPane',
 //         style: {
-//           color: minutes === 5 ? '#835BB9' : '#A68BCE',
+//           color: minutes === 5 ? '#087F8C' : '#91E1D8',
 //           weight: 1,
-//           fillColor: minutes === 5 ? '#9C79D0' : '#D9C9F2',
+//           fillColor: minutes === 5 ? '#087F8C' : '#91E1D8',
 //           fillOpacity: minutes === 5 ? 0.55 : 0.45
 //         },
 //         onEachFeature: (feature, featureLayer) => {
@@ -108,9 +108,9 @@ function loadWalkingLayer(file, group, minutes) {
           : 'walking10Pane',
 
         style: {
-          color: minutes === 5 ? '#835BB9' : '#A68BCE',
+          color: minutes === 5 ? '#087F8C' : '#91E1D8',
           weight: 1,
-          fillColor: minutes === 5 ? '#9C79D0' : '#D9C9F2',
+          fillColor: minutes === 5 ? '#087F8C' : '#91E1D8',
           fillOpacity: minutes === 5 ? 0.55 : 0.45
         },
 

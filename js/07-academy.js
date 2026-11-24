@@ -306,7 +306,7 @@ const academyLoading = new Map();
 const academyVisibleLabels = new Map();
 
 // 학원 포인트 생성
-function createAcademyMarker(feature, isLocal) {
+function createAcademyMarker(feature, isLocal, map) {
 
   if (!feature.geometry ||
       feature.geometry.type !== 'Point') {
@@ -333,7 +333,9 @@ function createAcademyMarker(feature, isLocal) {
     radius: isLocal ? 3.5 : 3.5,
     color: '#ffffff',
     weight: isLocal ? 0.6 : 0.3,
-    fillColor: isLocal ? '#C64A99' : '#DE93BF',
+    fillColor: map === storyDaechiMap
+      ? (isLocal ? '#FF603D' : '#FFB19F')
+      : (isLocal ? '#2455F5' : '#9AB0FF'),
     fillOpacity: isLocal ? 0.9 : 0.65
   });
 
@@ -421,7 +423,8 @@ function loadAcademyLayer(file, group, isLocal, map) {
 
             const marker = createAcademyMarker(
               features[index],
-              isLocal
+              isLocal,
+              map
             );
 
             if (marker) {

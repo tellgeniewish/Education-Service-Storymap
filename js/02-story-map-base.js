@@ -190,19 +190,19 @@ function updateLegend(type) {
 
         <span class="legend-item">
           <span class="legend-color"
-                style="background:#F2C94C;"></span>
+                style="background:#00B8D9;"></span>
           초등학교
         </span>
 
         <span class="legend-item">
           <span class="legend-color"
-                style="background:#49A87A;"></span>
+                style="background:#7950E8;"></span>
           중학교
         </span>
 
         <span class="legend-item">
           <span class="legend-color"
-                style="background:#F2994A;"></span>
+                style="background:#E83E8C;"></span>
           고등학교
         </span>
       `;
@@ -216,13 +216,13 @@ function updateLegend(type) {
 
       <span class="legend-item">
         <span class="legend-color"
-              style="background:#DE93BF;"></span>
+              style="background:linear-gradient(90deg,#FFB19F 0 50%,#9AB0FF 50% 100%);"></span>
         강남구·양산시
       </span>
 
       <span class="legend-item">
         <span class="legend-color"
-              style="background:#C64A99;"></span>
+              style="background:linear-gradient(90deg,#FF603D 0 50%,#2455F5 50% 100%);"></span>
         대치4동·물금읍
       </span>
     `;
@@ -236,13 +236,13 @@ function updateLegend(type) {
 
       <span class="legend-item">
         <span class="legend-color"
-              style="background:#9C79D0;"></span>
+              style="background:#087F8C;"></span>
         도보 5분
       </span>
 
       <span class="legend-item">
         <span class="legend-color"
-              style="background:#D9C9F2;"></span>
+              style="background:#91E1D8;"></span>
         도보 10분
       </span>
     `;

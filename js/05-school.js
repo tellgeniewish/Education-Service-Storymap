@@ -3,9 +3,9 @@
 // ==================================================
 
 const schoolColors = {
-  elementary: '#F2C94C',
-  middle: '#49A87A',
-  high: '#F2994A'
+  elementary: '#00B8D9',
+  middle: '#7950E8',
+  high: '#E83E8C'
 };
 
 const daechiSchoolLayers = L.layerGroup();
