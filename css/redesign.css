@@ -111,3 +111,11 @@ h2 { font-weight:850; line-height:1.18; }
 #story-mulgeum-map .academy-map-control button[data-mode="local"].selected { background:#2455F5; border-color:#2455F5; color:#fff; }
 #story-mulgeum-map .academy-map-control button[data-mode="all"].selected { background:#9AB0FF; border-color:#9AB0FF; color:#142D4E; }
 .academy-label { border-color:#142D4E; color:#142D4E; }
+
+/* 02 TREND 상단 라벨 컬러 통일 */
+.trend-eyebrow {
+  color: var(--electric);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
